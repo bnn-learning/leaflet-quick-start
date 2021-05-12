@@ -20,11 +20,12 @@
     <h1>Leaflet Quick Start Tutorial</h1>
     <a href="https://leafletjs.com/examples/quick-start/">Leaflet Quick Start Guide</a>
 
-    <div id="map" style="width: 600px; height: 400px;"></div>
+    <div id="mapid" style="width: 600px; height: 400px;"></div>
 
     <script>
-        var mymap = L.map('map').setView([51.05, -0.09], 13);
+        var mymap = L.map('mapid').setView([51.505, -0.09], 13);
 
+        // basemap layer
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             maxZoom: 18,
@@ -34,6 +35,41 @@
             accessToken: 'pk.eyJ1IjoiYm5vcmlrYW5lIiwiYSI6ImNrb2xyM2p5cjBheHAybm8xNXYzdTh3dHoifQ.Rd_dgxqYPpNQxflnHH54RA'
         }).addTo(mymap);
 
+        // demo marker
+        var marker = L.marker([51.5, -0.09]).addTo(mymap);
+
+        // demo circle
+        var circle = L.circle([51.508, -0.11], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 500
+        }).addTo(mymap);
+
+        // demo polygon
+        var polygon = L.polygon([
+            [51.509, -0.08],
+            [51.503, -0.06],
+            [51.51, -0.047]
+        ]).addTo(mymap);
+
+        // bind popups
+        marker.bindPopup("<b>Hello World!</b><br>I am a popup.").openPopup();
+        circle.bindPopup("I am a circle.");
+        polygon.bindPopup("I am polygon");
+
+        // add popup layer
+        var popup = L.popup()
+            .setLatLng([51.5, -0.09])
+            .setContent("I am a standalone popup.")
+            .openOn(mymap);
+
+        // add even listener
+        function onMapClick(e) {
+            alert("You clicked the map at " + e.latlng);
+        }
+
+        mymap.on('click', onMapClick);
 
     </script>
 
